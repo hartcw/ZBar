@@ -24,6 +24,7 @@
 #include "processor.h"
 #include <windows.h>
 #include <assert.h>
+#include <stdint.h>
 
 #define WIN_STYLE (WS_CAPTION | \
                    WS_SYSMENU | \
@@ -117,12 +118,12 @@ static LRESULT CALLBACK win_handle_event (HWND hwnd,
                                           LPARAM lparam)
 {
     zbar_processor_t *proc =
-        (zbar_processor_t*)GetWindowLongPtr(hwnd, GWL_USERDATA);
+        (zbar_processor_t*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
     /* initialized during window creation */
     if(message == WM_NCCREATE) {
         proc = ((LPCREATESTRUCT)lparam)->lpCreateParams;
         assert(proc);
-        SetWindowLongPtr(hwnd, GWL_USERDATA, (LONG_PTR)proc);
+        SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)proc);
         proc->display = hwnd;
 
         zbar_window_attach(proc->window, proc->display, proc->xwin);
@@ -279,7 +280,7 @@ int _zbar_processor_open (zbar_processor_t *proc,
 
     RECT r = { 0, 0, width, height };
     AdjustWindowRectEx(&r, WIN_STYLE, 0, EXT_STYLE);
-    proc->display = CreateWindowEx(EXT_STYLE, (LPCTSTR)(long)wca,
+    proc->display = CreateWindowEx(EXT_STYLE, (LPCTSTR)(uintptr_t)wca,
                                    "ZBar", WIN_STYLE,
                                    CW_USEDEFAULT, CW_USEDEFAULT,
                                    r.right - r.left, r.bottom - r.top,
