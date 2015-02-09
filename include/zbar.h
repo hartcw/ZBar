@@ -65,6 +65,12 @@
  *   extracts barcodes from a stream of bar and space widths
  */
 
+#include "zbar_export.h"
+
+#if !defined(__cplusplus) && defined(_MSC_VER) && !defined(inline)
+#define inline __inline
+#endif
+
 #ifdef __cplusplus
 
 /** C++ namespace for library interfaces */
@@ -200,17 +206,20 @@ typedef enum zbar_modifier_e {
  * @param minor set to the running minor version (unless NULL)
  * @returns 0
  */
+ZBAR_EXPORT
 extern int zbar_version(unsigned *major,
                         unsigned *minor);
 
 /** set global library debug level.
  * @param verbosity desired debug level.  higher values create more spew
  */
+ZBAR_EXPORT
 extern void zbar_set_verbosity(int verbosity);
 
 /** increase global library debug level.
  * eg, for -vvvv
  */
+ZBAR_EXPORT
 extern void zbar_increase_verbosity(void);
 
 /** retrieve string name for symbol encoding.
@@ -218,6 +227,7 @@ extern void zbar_increase_verbosity(void);
  * @returns the static string name for the specified symbol type,
  * or "UNKNOWN" if the encoding is not recognized
  */
+ZBAR_EXPORT
 extern const char *zbar_get_symbol_name(zbar_symbol_type_t sym);
 
 /** retrieve string name for addon encoding.
@@ -226,6 +236,7 @@ extern const char *zbar_get_symbol_name(zbar_symbol_type_t sym);
  * if no addons were decoded
  * @deprecated in 0.11
  */
+ZBAR_EXPORT
 extern const char *zbar_get_addon_name(zbar_symbol_type_t sym);
 
 /** retrieve string name for configuration setting.
@@ -233,6 +244,7 @@ extern const char *zbar_get_addon_name(zbar_symbol_type_t sym);
  * @returns static string name for config,
  * or the empty string if value is not a known config
  */
+ZBAR_EXPORT
 extern const char *zbar_get_config_name(zbar_config_t config);
 
 /** retrieve string name for modifier.
@@ -240,6 +252,7 @@ extern const char *zbar_get_config_name(zbar_config_t config);
  * @returns static string name for modifier,
  * or the empty string if the value is not a known flag
  */
+ZBAR_EXPORT
 extern const char *zbar_get_modifier_name(zbar_modifier_t modifier);
 
 /** retrieve string name for orientation.
@@ -248,6 +261,7 @@ extern const char *zbar_get_modifier_name(zbar_modifier_t modifier);
  * or "UNKNOWN" if the orientation is not recognized
  * @since 0.11
  */
+ZBAR_EXPORT
 extern const char *zbar_get_orientation_name(zbar_orientation_t orientation);
 
 /** parse a configuration string of the form "[symbology.]config[=value]".
@@ -258,6 +272,7 @@ extern const char *zbar_get_orientation_name(zbar_orientation_t orientation);
  * @returns 0 if the config is parsed successfully, 1 otherwise
  * @since 0.4
  */
+ZBAR_EXPORT
 extern int zbar_parse_config(const char *config_string,
                              zbar_symbol_type_t *symbology,
                              zbar_config_t *config,
@@ -324,12 +339,14 @@ typedef struct zbar_symbol_set_s zbar_symbol_set_t;
  * destroyed or reused.
  * @since 0.9
  */
+ZBAR_EXPORT
 extern void zbar_symbol_ref(const zbar_symbol_t *symbol,
                             int refs);
 
 /** retrieve type of decoded symbol.
  * @returns the symbol type
  */
+ZBAR_EXPORT
 extern zbar_symbol_type_t zbar_symbol_get_type(const zbar_symbol_t *symbol);
 
 /** retrieve symbology boolean config settings.
@@ -337,6 +354,7 @@ extern zbar_symbol_type_t zbar_symbol_get_type(const zbar_symbol_t *symbol);
  * symbology during decoding.
  * @since 0.11
  */
+ZBAR_EXPORT
 extern unsigned int zbar_symbol_get_configs(const zbar_symbol_t *symbol);
 
 /** retrieve symbology modifier flag settings.
@@ -344,16 +362,19 @@ extern unsigned int zbar_symbol_get_configs(const zbar_symbol_t *symbol);
  * during decoding.
  * @since 0.11
  */
+ZBAR_EXPORT
 extern unsigned int zbar_symbol_get_modifiers(const zbar_symbol_t *symbol);
 
 /** retrieve data decoded from symbol.
  * @returns the data string
  */
+ZBAR_EXPORT
 extern const char *zbar_symbol_get_data(const zbar_symbol_t *symbol);
 
 /** retrieve length of binary data.
  * @returns the length of the decoded data
  */
+ZBAR_EXPORT
 extern unsigned int zbar_symbol_get_data_length(const zbar_symbol_t *symbol);
 
 /** retrieve a symbol confidence metric.
@@ -365,6 +386,7 @@ extern unsigned int zbar_symbol_get_data_length(const zbar_symbol_t *symbol);
  * between two values is defined and will remain stable in the future
  * @since 0.9
  */
+ZBAR_EXPORT
 extern int zbar_symbol_get_quality(const zbar_symbol_t *symbol);
 
 /** retrieve current cache count.  when the cache is enabled for the
@@ -374,6 +396,7 @@ extern int zbar_symbol_get_quality(const zbar_symbol_t *symbol);
  * @returns 0 if symbol is newly verified.
  * @returns > 0 for duplicate symbols
  */
+ZBAR_EXPORT
 extern int zbar_symbol_get_count(const zbar_symbol_t *symbol);
 
 /** retrieve the number of points in the location polygon.  the
@@ -383,6 +406,7 @@ extern int zbar_symbol_get_count(const zbar_symbol_t *symbol);
  * @note this is currently not a polygon, but the scan locations
  * where the symbol was decoded
  */
+ZBAR_EXPORT
 extern unsigned zbar_symbol_get_loc_size(const zbar_symbol_t *symbol);
 
 /** retrieve location polygon x-coordinates.
@@ -390,6 +414,7 @@ extern unsigned zbar_symbol_get_loc_size(const zbar_symbol_t *symbol);
  * @returns the x-coordinate for a point in the location polygon.
  * @returns -1 if index is out of range
  */
+ZBAR_EXPORT
 extern int zbar_symbol_get_loc_x(const zbar_symbol_t *symbol,
                                  unsigned index);
 
@@ -398,6 +423,7 @@ extern int zbar_symbol_get_loc_x(const zbar_symbol_t *symbol,
  * @returns the y-coordinate for a point in the location polygon.
  * @returns -1 if index is out of range
  */
+ZBAR_EXPORT
 extern int zbar_symbol_get_loc_y(const zbar_symbol_t *symbol,
                                  unsigned index);
 
@@ -406,6 +432,7 @@ extern int zbar_symbol_get_loc_y(const zbar_symbol_t *symbol,
  * ::ZBAR_ORIENT_UNKNOWN if unknown
  * @since 0.11
  */
+ZBAR_EXPORT
 extern zbar_orientation_t
 zbar_symbol_get_orientation(const zbar_symbol_t *symbol);
 
@@ -413,6 +440,7 @@ zbar_symbol_get_orientation(const zbar_symbol_t *symbol);
  * @returns the next symbol in the set, or
  * @returns NULL when no more results are available
  */
+ZBAR_EXPORT
 extern const zbar_symbol_t *zbar_symbol_next(const zbar_symbol_t *symbol);
 
 /** retrieve components of a composite result.
@@ -420,6 +448,7 @@ extern const zbar_symbol_t *zbar_symbol_next(const zbar_symbol_t *symbol);
  * @returns NULL if the symbol is already a physical symbol
  * @since 0.10
  */
+ZBAR_EXPORT
 extern const zbar_symbol_set_t*
 zbar_symbol_get_components(const zbar_symbol_t *symbol);
 
@@ -428,6 +457,7 @@ zbar_symbol_get_components(const zbar_symbol_t *symbol);
  * @returns NULL if the symbol is already a physical symbol
  * @since 0.10
  */
+ZBAR_EXPORT
 extern const zbar_symbol_t*
 zbar_symbol_first_component(const zbar_symbol_t *symbol);
 
@@ -440,6 +470,7 @@ zbar_symbol_first_component(const zbar_symbol_t *symbol);
  * @returns the buffer pointer
  * @since 0.6
  */
+ZBAR_EXPORT
 extern char *zbar_symbol_xml(const zbar_symbol_t *symbol,
                              char **buffer,
                              unsigned *buflen);
@@ -465,6 +496,7 @@ extern char *zbar_symbol_xml(const zbar_symbol_t *symbol,
  * the object any longer once references have been released.
  * @since 0.10
  */
+ZBAR_EXPORT
 extern void zbar_symbol_set_ref(const zbar_symbol_set_t *symbols,
                                 int refs);
 
@@ -472,6 +504,7 @@ extern void zbar_symbol_set_ref(const zbar_symbol_set_t *symbols,
  * @returns the number of symbols in the set.
  * @since 0.10
  */
+ZBAR_EXPORT
 extern int zbar_symbol_set_get_size(const zbar_symbol_set_t *symbols);
 
 /** set iterator.
@@ -479,6 +512,7 @@ extern int zbar_symbol_set_get_size(const zbar_symbol_set_t *symbols);
  * @returns NULL if the set is empty
  * @since 0.10
  */
+ZBAR_EXPORT
 extern const zbar_symbol_t*
 zbar_symbol_set_first_symbol(const zbar_symbol_set_t *symbols);
 
@@ -487,6 +521,7 @@ zbar_symbol_set_first_symbol(const zbar_symbol_set_t *symbols);
  * @returns NULL if the set is empty
  * @since 0.11
  */
+ZBAR_EXPORT
 extern const zbar_symbol_t*
 zbar_symbol_set_first_unfiltered(const zbar_symbol_set_t *symbols);
 
@@ -519,6 +554,7 @@ typedef void (zbar_image_data_handler_t)(zbar_image_t *image,
  * this image should be destroyed (using zbar_image_destroy()) as
  * soon as the application is finished with it
  */
+ZBAR_EXPORT
 extern zbar_image_t *zbar_image_create(void);
 
 /** image destructor.  all images created by or returned to the
@@ -530,6 +566,7 @@ extern zbar_image_t *zbar_image_create(void);
  * is still using them.  if necessary, use the cleanup handler hook
  * to keep track of image data buffers
  */
+ZBAR_EXPORT
 extern void zbar_image_destroy(zbar_image_t *image);
 
 /** image reference count manipulation.
@@ -539,6 +576,7 @@ extern void zbar_image_destroy(zbar_image_t *image);
  * zbar_image_ref(image, -1) is the same as zbar_image_destroy(image)
  * @since 0.5
  */
+ZBAR_EXPORT
 extern void zbar_image_ref(zbar_image_t *image,
                            int refs);
 
@@ -550,6 +588,7 @@ extern void zbar_image_ref(zbar_image_t *image,
  * @note the converted image size may be rounded (up) due to format
  * constraints
  */
+ZBAR_EXPORT
 extern zbar_image_t *zbar_image_convert(const zbar_image_t *image,
                                         unsigned long format);
 
@@ -564,6 +603,7 @@ extern zbar_image_t *zbar_image_convert(const zbar_image_t *image,
  * @see zbar_image_convert()
  * @since 0.4
  */
+ZBAR_EXPORT
 extern zbar_image_t *zbar_image_convert_resize(const zbar_image_t *image,
                                                unsigned long format,
                                                unsigned width,
@@ -572,26 +612,31 @@ extern zbar_image_t *zbar_image_convert_resize(const zbar_image_t *image,
 /** retrieve the image format.
  * @returns the fourcc describing the format of the image sample data
  */
+ZBAR_EXPORT
 extern unsigned long zbar_image_get_format(const zbar_image_t *image);
 
 /** retrieve a "sequence" (page/frame) number associated with this image.
  * @since 0.6
  */
+ZBAR_EXPORT
 extern unsigned zbar_image_get_sequence(const zbar_image_t *image);
 
 /** retrieve the width of the image.
  * @returns the width in sample columns
  */
+ZBAR_EXPORT
 extern unsigned zbar_image_get_width(const zbar_image_t *image);
 
 /** retrieve the height of the image.
  * @returns the height in sample rows
  */
+ZBAR_EXPORT
 extern unsigned zbar_image_get_height(const zbar_image_t *image);
 
 /** retrieve both dimensions of the image.
  * fills in the width and height in samples
  */
+ZBAR_EXPORT
 extern void zbar_image_get_size(const zbar_image_t *image,
                                 unsigned *width,
                                 unsigned *height);
@@ -602,6 +647,7 @@ extern void zbar_image_get_size(const zbar_image_t *image,
  * defaults to the full image
  * @since 0.11
  */
+ZBAR_EXPORT
 extern void zbar_image_get_crop(const zbar_image_t *image,
                                 unsigned *x,
                                 unsigned *y,
@@ -611,11 +657,13 @@ extern void zbar_image_get_crop(const zbar_image_t *image,
 /** return the image sample data.  the returned data buffer is only
  * valid until zbar_image_destroy() is called
  */
+ZBAR_EXPORT
 extern const void *zbar_image_get_data(const zbar_image_t *image);
 
 /** return the size of image data.
  * @since 0.6
  */
+ZBAR_EXPORT
 extern unsigned long zbar_image_get_data_length(const zbar_image_t *img);
 
 /** retrieve the decoded results.
@@ -623,6 +671,7 @@ extern unsigned long zbar_image_get_data_length(const zbar_image_t *img);
  * @returns NULL if the image has not been scanned
  * @since 0.10
  */
+ZBAR_EXPORT
 extern const zbar_symbol_set_t*
 zbar_image_get_symbols(const zbar_image_t *image);
 
@@ -632,6 +681,7 @@ zbar_image_get_symbols(const zbar_image_t *image);
  * @see zbar_image_scanner_recycle_image()
  * @since 0.10
  */
+ZBAR_EXPORT
 extern void zbar_image_set_symbols(zbar_image_t *image,
                                    const zbar_symbol_set_t *symbols);
 
@@ -639,6 +689,7 @@ extern void zbar_image_set_symbols(zbar_image_t *image,
  * @returns the first decoded symbol result for an image
  * or NULL if no results are available
  */
+ZBAR_EXPORT
 extern const zbar_symbol_t*
 zbar_image_first_symbol(const zbar_image_t *image);
 
@@ -647,12 +698,14 @@ zbar_image_first_symbol(const zbar_image_t *image);
  * @note this does not convert the data!
  * (see zbar_image_convert() for that)
  */
+ZBAR_EXPORT
 extern void zbar_image_set_format(zbar_image_t *image,
                                   unsigned long format);
 
 /** associate a "sequence" (page/frame) number with this image.
  * @since 0.6
  */
+ZBAR_EXPORT
 extern void zbar_image_set_sequence(zbar_image_t *image,
                                     unsigned sequence_num);
 
@@ -661,6 +714,7 @@ extern void zbar_image_set_sequence(zbar_image_t *image,
  * (0, 0, width, height)
  * @note this does not affect the data!
  */
+ZBAR_EXPORT
 extern void zbar_image_set_size(zbar_image_t *image,
                                 unsigned width,
                                 unsigned height);
@@ -669,6 +723,7 @@ extern void zbar_image_set_size(zbar_image_t *image,
  * the rectangle will be clipped to the image boundaries.
  * defaults to the full image specified by zbar_image_set_size()
  */
+ZBAR_EXPORT
 extern void zbar_image_set_crop(zbar_image_t *image,
                                 unsigned x,
                                 unsigned y,
@@ -680,6 +735,7 @@ extern void zbar_image_set_crop(zbar_image_t *image,
  * (unless NULL)
  * @note application image data will not be modified by the library
  */
+ZBAR_EXPORT
 extern void zbar_image_set_data(zbar_image_t *image,
                                 const void *data,
                                 unsigned long data_byte_length,
@@ -688,17 +744,20 @@ extern void zbar_image_set_data(zbar_image_t *image,
 /** built-in cleanup handler.
  * passes the image data buffer to free()
  */
+ZBAR_EXPORT
 extern void zbar_image_free_data(zbar_image_t *image);
 
 /** associate user specified data value with an image.
  * @since 0.5
  */
+ZBAR_EXPORT
 extern void zbar_image_set_userdata(zbar_image_t *image,
                                     void *userdata);
 
 /** return user specified data value associated with the image.
  * @since 0.5
  */
+ZBAR_EXPORT
 extern void *zbar_image_get_userdata(const zbar_image_t *image);
 
 /** dump raw image data to a file for debug.
@@ -724,12 +783,14 @@ extern void *zbar_image_get_userdata(const zbar_image_t *image);
  * XXXX is the format fourcc
  * @returns 0 on success or a system error code on failure
  */
+ZBAR_EXPORT
 extern int zbar_image_write(const zbar_image_t *image,
                             const char *filebase);
 
 /** read back an image in the format written by zbar_image_write()
  * @note TBD
  */
+ZBAR_EXPORT
 extern zbar_image_t *zbar_image_read(char *filename);
 
 /*@}*/
@@ -752,15 +813,18 @@ typedef struct zbar_processor_s zbar_processor_t;
  * will spawn threads where appropriate to avoid blocking and
  * improve responsiveness
  */
+ZBAR_EXPORT
 extern zbar_processor_t *zbar_processor_create(int threaded);
 
 /** destructor.  cleans up all resources associated with the processor
  */
+ZBAR_EXPORT
 extern void zbar_processor_destroy(zbar_processor_t *processor);
 
 /** (re)initialization.
  * opens a video input device and/or prepares to display output
  */
+ZBAR_EXPORT
 extern int zbar_processor_init(zbar_processor_t *processor,
                                const char *video_device,
                                int enable_display);
@@ -770,6 +834,7 @@ extern int zbar_processor_init(zbar_processor_t *processor,
  * @note must be called before zbar_processor_init()
  * @since 0.6
  */
+ZBAR_EXPORT
 extern int zbar_processor_request_size(zbar_processor_t *processor,
                                        unsigned width,
                                        unsigned height);
@@ -779,6 +844,7 @@ extern int zbar_processor_request_size(zbar_processor_t *processor,
  * @note must be called before zbar_processor_init()
  * @since 0.6
  */
+ZBAR_EXPORT
 extern int zbar_processor_request_interface(zbar_processor_t *processor,
                                             int version);
 
@@ -793,12 +859,14 @@ extern int zbar_processor_request_interface(zbar_processor_t *processor,
  * @note must be called before zbar_processor_init()
  * @since 0.7
  */
+ZBAR_EXPORT
 extern int zbar_processor_request_iomode(zbar_processor_t *video,
                                          int iomode);
 
 /** force specific input and output formats for debug/testing.
  * @note must be called before zbar_processor_init()
  */
+ZBAR_EXPORT
 extern int zbar_processor_force_format(zbar_processor_t *processor,
                                        unsigned long input_format,
                                        unsigned long output_format);
@@ -812,6 +880,7 @@ extern int zbar_processor_force_format(zbar_processor_t *processor,
  * @param userdata is set as with zbar_processor_set_userdata().
  * @returns the previously registered handler
  */
+ZBAR_EXPORT
 extern zbar_image_data_handler_t*
 zbar_processor_set_data_handler(zbar_processor_t *processor,
                                 zbar_image_data_handler_t *handler,
@@ -820,12 +889,14 @@ zbar_processor_set_data_handler(zbar_processor_t *processor,
 /** associate user specified data value with the processor.
  * @since 0.6
  */
+ZBAR_EXPORT
 extern void zbar_processor_set_userdata(zbar_processor_t *processor,
                                         void *userdata);
 
 /** return user specified data value associated with the processor.
  * @since 0.6
  */
+ZBAR_EXPORT
 extern void *zbar_processor_get_userdata(const zbar_processor_t *processor);
 
 /** set config for indicated symbology (0 for all) to specified value.
@@ -834,6 +905,7 @@ extern void *zbar_processor_get_userdata(const zbar_processor_t *processor);
  * @see zbar_decoder_set_config()
  * @since 0.4
  */
+ZBAR_EXPORT
 extern int zbar_processor_set_config(zbar_processor_t *processor,
                                      zbar_symbol_type_t symbology,
                                      zbar_config_t config,
@@ -860,11 +932,13 @@ static inline int zbar_processor_parse_config (zbar_processor_t *processor,
  * @returns 1 if the output window is currently displayed, 0 if not.
  * @returns -1 if an error occurs
  */
+ZBAR_EXPORT
 extern int zbar_processor_is_visible(zbar_processor_t *processor);
 
 /** show or hide the display window owned by the library.
  * the size will be adjusted to the input size
  */
+ZBAR_EXPORT
 extern int zbar_processor_set_visible(zbar_processor_t *processor,
                                       int visible);
 
@@ -874,6 +948,7 @@ extern int zbar_processor_set_visible(zbar_processor_t *processor,
  * useful wrapping calls to zbar_processor_user_wait(). if the
  * library output window is visible, video display will be enabled.
  */
+ZBAR_EXPORT
 extern int zbar_processor_set_active(zbar_processor_t *processor,
                                      int active);
 
@@ -884,6 +959,7 @@ extern int zbar_processor_set_active(zbar_processor_t *processor,
  * ensure that the count is decremented after use
  * @since 0.10
  */
+ZBAR_EXPORT
 extern const zbar_symbol_set_t*
 zbar_processor_get_results(const zbar_processor_t *processor);
 
@@ -892,6 +968,7 @@ zbar_processor_get_results(const zbar_processor_t *processor);
  * @returns >0 when input is received, 0 if timeout ms expired
  * with no input or -1 in case of an error
  */
+ZBAR_EXPORT
 extern int zbar_processor_user_wait(zbar_processor_t *processor,
                                     int timeout);
 
@@ -907,6 +984,7 @@ extern int zbar_processor_user_wait(zbar_processor_t *processor,
  * 0 if no symbols were found (ie, the timeout expired)
  * or -1 if an error occurs
  */
+ZBAR_EXPORT
 extern int zbar_process_one(zbar_processor_t *processor,
                             int timeout);
 
@@ -915,6 +993,7 @@ extern int zbar_process_one(zbar_processor_t *processor,
  * @returns >0 if symbols were successfully decoded,
  * 0 if no symbols were found or -1 if an error occurs
  */
+ZBAR_EXPORT
 extern int zbar_process_image(zbar_processor_t *processor,
                               zbar_image_t *image);
 
@@ -958,9 +1037,11 @@ struct zbar_video_s;
 typedef struct zbar_video_s zbar_video_t;
 
 /** constructor. */
+ZBAR_EXPORT
 extern zbar_video_t *zbar_video_create(void);
 
 /** destructor. */
+ZBAR_EXPORT
 extern void zbar_video_destroy(zbar_video_t *video);
 
 /** open and probe a video device.
@@ -969,6 +1050,7 @@ extern void zbar_video_destroy(zbar_video_t *video);
  *  DirectShow DevicePath property in windows).
  * @returns 0 if successful or -1 if an error occurs
  */
+ZBAR_EXPORT
 extern int zbar_video_open(zbar_video_t *video,
                            const char *device);
 
@@ -978,6 +1060,7 @@ extern int zbar_video_open(zbar_video_t *video,
  * @returns the file descriptor or -1 if the video device is not open
  * or the driver only supports v4l1
  */
+ZBAR_EXPORT
 extern int zbar_video_get_fd(const zbar_video_t *video);
 
 /** request a preferred size for the video image from the device.
@@ -986,6 +1069,7 @@ extern int zbar_video_get_fd(const zbar_video_t *video);
  * initialized
  * @since 0.6
  */
+ZBAR_EXPORT
 extern int zbar_video_request_size(zbar_video_t *video,
                                    unsigned width,
                                    unsigned height);
@@ -994,6 +1078,7 @@ extern int zbar_video_request_size(zbar_video_t *video,
  * @note must be called before zbar_video_open()
  * @since 0.6
  */
+ZBAR_EXPORT
 extern int zbar_video_request_interface(zbar_video_t *video,
                                         int version);
 
@@ -1008,23 +1093,27 @@ extern int zbar_video_request_interface(zbar_video_t *video,
  * @note must be called before zbar_video_open()
  * @since 0.7
  */
+ZBAR_EXPORT
 extern int zbar_video_request_iomode(zbar_video_t *video,
                                      int iomode);
 
 /** retrieve current output image width.
  * @returns the width or 0 if the video device is not open
  */
+ZBAR_EXPORT
 extern int zbar_video_get_width(const zbar_video_t *video);
 
 /** retrieve current output image height.
  * @returns the height or 0 if the video device is not open
  */
+ZBAR_EXPORT
 extern int zbar_video_get_height(const zbar_video_t *video);
 
 /** initialize video using a specific format for debug.
  * use zbar_negotiate_format() to automatically select and initialize
  * the best available format
  */
+ZBAR_EXPORT
 extern int zbar_video_init(zbar_video_t *video,
                            unsigned long format);
 
@@ -1032,12 +1121,14 @@ extern int zbar_video_init(zbar_video_t *video,
  * all buffered images are retired when capture is disabled.
  * @returns 0 if successful or -1 if an error occurs
  */
+ZBAR_EXPORT
 extern int zbar_video_enable(zbar_video_t *video,
                              int enable);
 
 /** retrieve next captured image.  blocks until an image is available.
  * @returns NULL if video is not enabled or an error occurs
  */
+ZBAR_EXPORT
 extern zbar_image_t *zbar_video_next_image(zbar_video_t *video);
 
 /** display detail for last video error to stderr.
@@ -1078,9 +1169,11 @@ struct zbar_window_s;
 typedef struct zbar_window_s zbar_window_t;
 
 /** constructor. */
+ZBAR_EXPORT
 extern zbar_window_t *zbar_window_create(void);
 
 /** destructor. */
+ZBAR_EXPORT
 extern void zbar_window_destroy(zbar_window_t *window);
 
 /** associate reader with an existing platform window.
@@ -1089,6 +1182,7 @@ extern void zbar_window_destroy(zbar_window_t *window);
  * pass NULL to detach from the resource, further input will be
  * ignored
  */
+ZBAR_EXPORT
 extern int zbar_window_attach(zbar_window_t *window,
                               void *x11_display_w32_hwnd,
                               unsigned long x11_drawable);
@@ -1102,6 +1196,7 @@ extern int zbar_window_attach(zbar_window_t *window,
     2 = also track and display input frame rate
 @endverbatim
  */
+ZBAR_EXPORT
 extern void zbar_window_set_overlay(zbar_window_t *window,
                                     int level);
 
@@ -1109,19 +1204,23 @@ extern void zbar_window_set_overlay(zbar_window_t *window,
  * @see zbar_window_set_overlay()
  * @since 0.10
  */
+ZBAR_EXPORT
 extern int zbar_window_get_overlay(const zbar_window_t *window);
 
 /** draw a new image into the output window. */
+ZBAR_EXPORT
 extern int zbar_window_draw(zbar_window_t *window,
                             zbar_image_t *image);
 
 /** redraw the last image (exposure handler). */
+ZBAR_EXPORT
 extern int zbar_window_redraw(zbar_window_t *window);
 
 /** resize the image window (reconfigure handler).
  * this does @em not update the contents of the window
  * @since 0.3, changed in 0.4 to not redraw window
  */
+ZBAR_EXPORT
 extern int zbar_window_resize(zbar_window_t *window,
                               unsigned width,
                               unsigned height);
@@ -1157,6 +1256,7 @@ zbar_window_get_error_code (const zbar_window_t *window)
  * barcode scanning.  if a format conversion is necessary, it will
  * heuristically attempt to minimize the cost of the conversion
  */
+ZBAR_EXPORT
 extern int zbar_negotiate_format(zbar_video_t *video,
                                  zbar_window_t *window);
 
@@ -1175,9 +1275,11 @@ struct zbar_image_scanner_s;
 typedef struct zbar_image_scanner_s zbar_image_scanner_t;
 
 /** constructor. */
+ZBAR_EXPORT
 extern zbar_image_scanner_t *zbar_image_scanner_create(void);
 
 /** destructor. */
+ZBAR_EXPORT
 extern void zbar_image_scanner_destroy(zbar_image_scanner_t *scanner);
 
 /** setup result handler callback.
@@ -1186,6 +1288,7 @@ extern void zbar_image_scanner_destroy(zbar_image_scanner_t *scanner);
  * pass a NULL value to disable callbacks.
  * @returns the previously registered handler
  */
+ZBAR_EXPORT
 extern zbar_image_data_handler_t*
 zbar_image_scanner_set_data_handler(zbar_image_scanner_t *scanner,
                                     zbar_image_data_handler_t *handler,
@@ -1198,6 +1301,7 @@ zbar_image_scanner_set_data_handler(zbar_image_scanner_t *scanner,
  * @see zbar_decoder_set_config()
  * @since 0.4
  */
+ZBAR_EXPORT
 extern int zbar_image_scanner_set_config(zbar_image_scanner_t *scanner,
                                          zbar_symbol_type_t symbology,
                                          zbar_config_t config,
@@ -1227,6 +1331,7 @@ zbar_image_scanner_parse_config (zbar_image_scanner_t *scanner,
  * consistency checking and hysteresis to the results.
  * this interface also clears the cache
  */
+ZBAR_EXPORT
 extern void zbar_image_scanner_enable_cache(zbar_image_scanner_t *scanner,
                                             int enable);
 
@@ -1236,6 +1341,7 @@ extern void zbar_image_scanner_enable_cache(zbar_image_scanner_t *scanner,
  * subsequent decodes
  * @since 0.10
  */
+ZBAR_EXPORT
 extern void zbar_image_scanner_recycle_image(zbar_image_scanner_t *scanner,
                                              zbar_image_t *image);
 
@@ -1247,6 +1353,7 @@ extern void zbar_image_scanner_recycle_image(zbar_image_scanner_t *scanner,
  * after the next image is scanned
  * @since 0.10
  */
+ZBAR_EXPORT
 extern const zbar_symbol_set_t*
 zbar_image_scanner_get_results(const zbar_image_scanner_t *scanner);
 
@@ -1257,6 +1364,7 @@ zbar_image_scanner_get_results(const zbar_image_scanner_t *scanner);
  * @see zbar_image_convert()
  * @since 0.9 - changed to only accept grayscale images
  */
+ZBAR_EXPORT
 extern int zbar_scan_image(zbar_image_scanner_t *scanner,
                            zbar_image_t *image);
 
@@ -1280,9 +1388,11 @@ typedef struct zbar_decoder_s zbar_decoder_t;
 typedef void (zbar_decoder_handler_t)(zbar_decoder_t *decoder);
 
 /** constructor. */
+ZBAR_EXPORT
 extern zbar_decoder_t *zbar_decoder_create(void);
 
 /** destructor. */
+ZBAR_EXPORT
 extern void zbar_decoder_destroy(zbar_decoder_t *decoder);
 
 /** set config for indicated symbology (0 for all) to specified value.
@@ -1290,6 +1400,7 @@ extern void zbar_decoder_destroy(zbar_decoder_t *decoder);
  * specified symbology, or value out of range)
  * @since 0.4
  */
+ZBAR_EXPORT
 extern int zbar_decoder_set_config(zbar_decoder_t *decoder,
                                    zbar_symbol_type_t symbology,
                                    zbar_config_t config,
@@ -1317,18 +1428,21 @@ static inline int zbar_decoder_parse_config (zbar_decoder_t *decoder,
  * specified symbology.
  * @since 0.11
  */
+ZBAR_EXPORT
 extern unsigned int zbar_decoder_get_configs(const zbar_decoder_t *decoder,
                                              zbar_symbol_type_t symbology);
 
 /** clear all decoder state.
  * any partial symbols are flushed
  */
+ZBAR_EXPORT
 extern void zbar_decoder_reset(zbar_decoder_t *decoder);
 
 /** mark start of a new scan pass.
  * clears any intra-symbol state and resets color to ::ZBAR_SPACE.
  * any partially decoded symbol state is retained
  */
+ZBAR_EXPORT
 extern void zbar_decoder_new_scan(zbar_decoder_t *decoder);
 
 /** process next bar/space width from input stream.
@@ -1339,11 +1453,13 @@ extern void zbar_decoder_new_scan(zbar_decoder_t *decoder);
  * @returns ::ZBAR_PARTIAL as a hint if part of a symbol was decoded
  * @returns ::ZBAR_NONE (0) if no new symbol data is available
  */
+ZBAR_EXPORT
 extern zbar_symbol_type_t zbar_decode_width(zbar_decoder_t *decoder,
                                             unsigned width);
 
 /** retrieve color of @em next element passed to
  * zbar_decode_width(). */
+ZBAR_EXPORT
 extern zbar_color_t zbar_decoder_get_color(const zbar_decoder_t *decoder);
 
 /** retrieve last decoded data.
@@ -1352,18 +1468,21 @@ extern zbar_color_t zbar_decoder_get_color(const zbar_decoder_t *decoder);
  * valid between non-0 return from zbar_decode_width and next library
  * call
  */
+ZBAR_EXPORT
 extern const char *zbar_decoder_get_data(const zbar_decoder_t *decoder);
 
 /** retrieve length of binary data.
  * @returns the length of the decoded data or 0 if no new data
  * available.
  */
+ZBAR_EXPORT
 extern unsigned int
 zbar_decoder_get_data_length(const zbar_decoder_t *decoder);
 
 /** retrieve last decoded symbol type.
  * @returns the type or ::ZBAR_NONE if no new data available
  */
+ZBAR_EXPORT
 extern zbar_symbol_type_t
 zbar_decoder_get_type(const zbar_decoder_t *decoder);
 
@@ -1372,6 +1491,7 @@ zbar_decoder_get_type(const zbar_decoder_t *decoder);
  * during decoding.
  * @since 0.11
  */
+ZBAR_EXPORT
 extern unsigned int zbar_decoder_get_modifiers(const zbar_decoder_t *decoder);
 
 /** retrieve last decode direction.
@@ -1379,6 +1499,7 @@ extern unsigned int zbar_decoder_get_modifiers(const zbar_decoder_t *decoder);
  * @returns 0 if the decode direction is unknown or does not apply
  * @since 0.11
  */
+ZBAR_EXPORT
 extern int zbar_decoder_get_direction(const zbar_decoder_t *decoder);
 
 /** setup data handler callback.
@@ -1387,15 +1508,18 @@ extern int zbar_decoder_get_direction(const zbar_decoder_t *decoder);
  * pass a NULL value to disable callbacks.
  * @returns the previously registered handler
  */
+ZBAR_EXPORT
 extern zbar_decoder_handler_t*
 zbar_decoder_set_handler(zbar_decoder_t *decoder,
                          zbar_decoder_handler_t *handler);
 
 /** associate user specified data value with the decoder. */
+ZBAR_EXPORT
 extern void zbar_decoder_set_userdata(zbar_decoder_t *decoder,
                                       void *userdata);
 
 /** return user specified data value associated with the decoder. */
+ZBAR_EXPORT
 extern void *zbar_decoder_get_userdata(const zbar_decoder_t *decoder);
 
 /*@}*/
@@ -1419,14 +1543,17 @@ typedef struct zbar_scanner_s zbar_scanner_t;
  * current color is initialized to ::ZBAR_SPACE
  * (so an initial BAR->SPACE transition may be discarded)
  */
+ZBAR_EXPORT
 extern zbar_scanner_t *zbar_scanner_create(zbar_decoder_t *decoder);
 
 /** destructor. */
+ZBAR_EXPORT
 extern void zbar_scanner_destroy(zbar_scanner_t *scanner);
 
 /** clear all scanner state.
  * also resets an associated decoder
  */
+ZBAR_EXPORT
 extern zbar_symbol_type_t zbar_scanner_reset(zbar_scanner_t *scanner);
 
 /** mark start of a new scan pass. resets color to ::ZBAR_SPACE.
@@ -1437,6 +1564,7 @@ extern zbar_symbol_type_t zbar_scanner_reset(zbar_scanner_t *scanner);
  * @note call zbar_scanner_flush() at least twice before calling this
  * method to ensure no decode results are lost
  */
+ZBAR_EXPORT
 extern zbar_symbol_type_t zbar_scanner_new_scan(zbar_scanner_t *scanner);
 
 /** flush scanner processing pipeline.
@@ -1447,6 +1575,7 @@ extern zbar_symbol_type_t zbar_scanner_new_scan(zbar_scanner_t *scanner);
  * be checked the same as zbar_scan_y()
  * @since 0.9
  */
+ZBAR_EXPORT
 extern zbar_symbol_type_t zbar_scanner_flush(zbar_scanner_t *scanner);
 
 /** process next sample intensity value.
@@ -1455,6 +1584,7 @@ extern zbar_symbol_type_t zbar_scanner_flush(zbar_scanner_t *scanner);
  * otherwise @returns (::ZBAR_PARTIAL) when new edge is detected
  * or 0 (::ZBAR_NONE) if no new edge is detected
  */
+ZBAR_EXPORT
 extern zbar_symbol_type_t zbar_scan_y(zbar_scanner_t *scanner,
                                       int y);
 

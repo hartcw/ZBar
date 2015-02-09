@@ -33,9 +33,10 @@
 
 # include <windows.h>
 # define HAVE_THREADS
-# define ZTHREAD DWORD WINAPI
+# define ZTHREAD DWORD
+# define ZTHREADAPI WINAPI
 
-typedef ZTHREAD (zbar_thread_proc_t)(void*);
+typedef ZTHREAD (ZTHREADAPI zbar_thread_proc_t)(void*);
 
 typedef DWORD zbar_thread_id_t;
 
@@ -45,6 +46,7 @@ typedef DWORD zbar_thread_id_t;
 # include <signal.h>
 # define HAVE_THREADS
 # define ZTHREAD void*
+# define ZTHREADAPI
 
 typedef ZTHREAD (zbar_thread_proc_t)(void*);
 

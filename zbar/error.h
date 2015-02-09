@@ -30,6 +30,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdint.h>
 #ifdef HAVE_ERRNO_H
 # include <errno.h>
 #endif
@@ -39,6 +40,10 @@
 
 #ifdef _WIN32
 # include <windows.h>
+#endif
+
+#ifdef _MSC_VER
+#define PRIx32 "lx"
 #endif
 
 #if __STDC_VERSION__ < 199901L

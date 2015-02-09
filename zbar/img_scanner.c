@@ -649,6 +649,8 @@ int zbar_scan_image (zbar_image_scanner_t *iscn,
     zbar_scanner_t *scn = iscn->scn;
     unsigned w, h, cx1, cy1;
     int density;
+    char filter;
+    int nean = 0, naddon = 0;
 
     /* timestamp image
      * FIXME prefer video timestamp
@@ -808,9 +810,8 @@ int zbar_scan_image (zbar_image_scanner_t *iscn,
 
     /* FIXME tmp hack to filter bad EAN results */
     /* FIXME tmp hack to merge simple case EAN add-ons */
-    char filter = (!iscn->enable_cache &&
+    filter = (!iscn->enable_cache &&
                    (density == 1 || CFG(iscn, ZBAR_CFG_Y_DENSITY) == 1));
-    int nean = 0, naddon = 0;
     if(syms->nsyms) {
         zbar_symbol_t **symp;
         for(symp = &syms->head; *symp; ) {
@@ -851,6 +852,8 @@ int zbar_scan_image (zbar_image_scanner_t *iscn,
         }
 
         if(nean == 1 && naddon == 1 && iscn->ean_config) {
+            int datalen;
+            zbar_symbol_t *ean_sym;
             /* create container symbol for composite result */
             zbar_symbol_t *ean = NULL, *addon = NULL;
             for(symp = &syms->head; *symp; ) {
@@ -871,8 +874,8 @@ int zbar_scan_image (zbar_image_scanner_t *iscn,
             assert(ean);
             assert(addon);
 
-            int datalen = ean->datalen + addon->datalen + 1;
-            zbar_symbol_t *ean_sym =
+            datalen = ean->datalen + addon->datalen + 1;
+            ean_sym =
                 _zbar_image_scanner_alloc_sym(iscn, ZBAR_COMPOSITE, datalen);
             ean_sym->orient = ean->orient;
             ean_sym->syms = _zbar_symbol_set_create();
